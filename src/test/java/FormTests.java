@@ -6,6 +6,7 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 public class FormTests {
     @BeforeAll
@@ -17,25 +18,26 @@ public class FormTests {
     }
 
     @Test
-    void checkTestForm() {
+    void checkFormTest() {
         //Действия
         open("/automation-practice-form");
+        executeJavaScript("$('#fixedban').remove()");
+        executeJavaScript("$('footer').remove()");
         // заполнение формы
         $("#firstName").setValue("Kirill");  // имя
         $("#lastName").setValue("Goltser"); // фамилия
         $("#userEmail").setValue("kirillTest@yandex.ru"); // email
         $("#userNumber").setValue("8999111111"); // номер телефона
-        $(byText("Male")).click(); // пол мужской
+        $("label[for='gender-radio-1']").click(); // пол мужской
         $("#dateOfBirthInput").click(); // открыть календарь
         $(".react-datepicker__month-select").click();
-        $(byText("April")).click(); // месяц
-        $(".react-datepicker__year-select").click();
-        $(byText("1993")).click(); // год
+        $(".react-datepicker__month-select").find("option[value='3']").click(); // месяц
+        $(".react-datepicker__year-select").find("option[value='1993']").click();
         $(".react-datepicker__month").click();
-        $(byText("8")).click(); // дата
+        $(".react-datepicker__day--008").click();  // дата
         $("#dateOfBirthInput").pressEnter();
         $("#subjectsInput").setValue("History").pressEnter(); // предмет
-        $(byText("Reading")).click(); //хобби -чтение
+        $("[for=hobbies-checkbox-2]").click(); //хобби -чтение
         $("#uploadPicture").uploadFromClasspath("testPic.jpeg"); // загрузка картинки
         $("#currentAddress").setValue("Krasnodar st. Karasunskaya 60");
         $("#react-select-3-input").setValue("NCR").pressEnter(); // стейт
