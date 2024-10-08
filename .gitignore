@@ -8,6 +8,8 @@ build/
 *.iws
 *.iml
 *.ipr
+.DS_Store
+
 
 ### Gradle ###
 .gradle
