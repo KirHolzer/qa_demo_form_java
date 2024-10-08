@@ -80,7 +80,7 @@ public class DemoqaFormPage {
         return this;
     }
 
-    public DemoqaFormPage setCurrentAddress(String value) {
+    public DemoqaFormPage setUserCurrentAddress(String value) {
         currentAddressInput.setValue(value);
         return this;
     }
@@ -97,6 +97,15 @@ public class DemoqaFormPage {
 
     public void clickSubmit () {
         submitInput.click();
+    }
+
+    public DemoqaFormPage checkSuccessResult(String key, String value) {
+        new TableResponsive().checkSuccessResult(key, value);
+        return this;
+    }
+
+    public void checkNegativeResult() {
+        new TableResponsive().checkNegativeResult();
     }
 
 
