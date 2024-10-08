@@ -1,7 +1,5 @@
 import org.junit.jupiter.api.Test;
 import pages.DemoqaFormPage;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selenide.$;
 
 public class FormTests extends BaseTest {
     private final DemoqaFormPage demoqaFormPage = new DemoqaFormPage();
@@ -49,7 +47,7 @@ public class FormTests extends BaseTest {
                 .checkSuccessResult ("Subjects", subjects)
                 .checkSuccessResult ("Hobbies", hobbies)
                 .checkSuccessResult ("Picture", pictureName)
-                .checkSuccessResult ("Address", userState)
+                .checkSuccessResult ("Address", userAddress)
                 .checkSuccessResult ("State and City", userState + " " + userCity);
     }
 
@@ -61,12 +59,23 @@ public class FormTests extends BaseTest {
                 .setLastName(lastName)
                 .setUserNumber(userNumber)
                 .setGender(userGender)
-                .setBirthDay(dayOfBirth, monthOfBirth, yearOfBirth);
+                .setBirthDay(dayOfBirth, monthOfBirth, yearOfBirth)
+                .clickSubmit();
 
         demoqaFormPage.checkSuccessResult("Student Name", firstName + " " + lastName)
                 .checkSuccessResult ("Gender", userGender)
                 .checkSuccessResult ("Mobile", userNumber)
                 .checkSuccessResult ("Date of Birth", dayOfBirth + " " + monthOfBirth + "," + yearOfBirth);
 
+    }
+
+    @Test
+    void NegativeFormTest() {
+        demoqaFormPage.openPage()
+                .removeBanner()
+                .setUserNumber(negativeUserNumber)
+                .clickSubmit();
+
+        demoqaFormPage.checkNegativeResult();
     }
 }
