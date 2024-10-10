@@ -1,23 +1,26 @@
+import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.Test;
 import pages.DemoqaFormPage;
+import utils.DataGenerator;
 
 public class FormTests extends BaseTest {
     private final DemoqaFormPage demoqaFormPage = new DemoqaFormPage();
-    String firstName = "Kirill",
-            lastName = "Goltser",
-            userEmail = "kirillTest@yandex.ru",
-            userGender = "Male",
-            userNumber = "8999111111",
+    private final DataGenerator randomData = new DataGenerator();
+    String firstName = randomData.generateFirstName(),
+            lastName = randomData.generateLastName(),
+            userEmail =randomData.generateUserEmail(),
+            userGender = randomData.selectRandomGender(),
+            userNumber = randomData.generateRandomPhoneNumber(),
             negativeUserNumber = "8900$&*ASd",
-            dayOfBirth = "8",
-            monthOfBirth = "April",
-            yearOfBirth = "1993",
-            subjects = "History",
-            hobbies = "Reading",
+            dayOfBirth = randomData.dayOfBirth(),
+            monthOfBirth = randomData.monthOfBirth(),
+            yearOfBirth = randomData.generateYearOfBirth(),
+            subjects = randomData.subjects(),
+            hobbies = randomData.hobbies(),
             pictureName = "testPic.jpeg",
-            userAddress = "Krasnodar st. Karasunskaya 60",
-            userState = "NCR",
-            userCity = "Delhi";
+            userAddress = randomData.address(),
+            userState = randomData.state(),
+            userCity = randomData.city(userState);
 
 
     @Test
@@ -37,7 +40,7 @@ public class FormTests extends BaseTest {
                 .setUserState(userState) // Штат юзера
                 .setUserCity(userCity) // город
                 .clickSubmit(); // загрузка картинки
-
+        //Selenide.sleep(10000);
         // Проверки
         demoqaFormPage.checkSuccessResult("Student Name", firstName + " " + lastName)
                 .checkSuccessResult ("Student Email", userEmail)
