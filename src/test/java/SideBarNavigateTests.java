@@ -2,8 +2,12 @@ import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.stream.Stream;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
@@ -37,7 +41,7 @@ public class SideBarNavigateTests {
         $("h1").shouldHave(text(expectedHeader));
         sleep(2000);
     }
-
+    @Tag("SMOKE")
     @ParameterizedTest(name = "При клике на {0} левого сайдбара вкладки Widgets - у нас отображается страница {0}")
     @ValueSource(strings = {
             "Accordian", "Auto Complete", "Date Picker", "Slider",
@@ -49,6 +53,22 @@ public class SideBarNavigateTests {
         $("h1").shouldHave(text(menuItem));
         sleep(2000);
     }
-
-
+    @Tag("SMOKE")
+    @ParameterizedTest(name = "При клике на {0} левого сайдбара вкладки Interactions - у нас отображается страница {1}")
+    @MethodSource()
+    void checkNavigationFromLeftSideBarByInteractions(String menuItem,String expectedHeader) {
+        $(xpath("//*[text()='Interactions']")).click();
+        $(xpath("//span[text()='" + menuItem + "']")).click();
+        $("h1").shouldHave(text(expectedHeader));
+        sleep(2000);
+    }
+    static Stream<Arguments> checkNavigationFromLeftSideBarByInteractions() {
+        return Stream.of(
+                Arguments.of("Sortable", "Sortable"),
+                Arguments.of("Selectable", "Selectable"),
+                Arguments.of("Resizable", "Resizable"),
+                Arguments.of("Droppable", "Droppable"),
+                Arguments.of("Dragabble", "Dragabble")
+        );
+    }
 }
