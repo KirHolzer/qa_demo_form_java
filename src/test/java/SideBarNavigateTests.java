@@ -1,5 +1,6 @@
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -13,12 +14,11 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
 import static org.openqa.selenium.By.xpath;
 
-public class SideBarNavigateTests {
-    @BeforeAll
-    static void beforeAll() {
-        Configuration.browserSize = "1920x1080";
-        open("https://demoqa.com/forms");
-        Configuration.pageLoadStrategy = "eager";
+public class SideBarNavigateTests extends BaseTest {
+
+    @BeforeEach
+    void beforeEach() {
+        open("/forms");
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
     }
@@ -39,7 +39,6 @@ public class SideBarNavigateTests {
         $(xpath("//*[text()='Elements']")).click();
         $(xpath("//span[text()='" + menuItem + "']")).click();
         $("h1").shouldHave(text(expectedHeader));
-        sleep(2000);
     }
     @Tag("SMOKE")
     @ParameterizedTest(name = "При клике на {0} левого сайдбара вкладки Widgets - у нас отображается страница {0}")
@@ -51,7 +50,6 @@ public class SideBarNavigateTests {
         $(xpath("//*[text()='Widgets']")).click();
         $(xpath("//span[text()='" + menuItem + "']")).click();
         $("h1").shouldHave(text(menuItem));
-        sleep(2000);
     }
     @Tag("SMOKE")
     @ParameterizedTest(name = "При клике на {0} левого сайдбара вкладки Interactions - у нас отображается страница {1}")
@@ -60,7 +58,6 @@ public class SideBarNavigateTests {
         $(xpath("//*[text()='Interactions']")).click();
         $(xpath("//span[text()='" + menuItem + "']")).click();
         $("h1").shouldHave(text(expectedHeader));
-        sleep(2000);
     }
     static Stream<Arguments> checkNavigationFromLeftSideBarByInteractions() {
         return Stream.of(

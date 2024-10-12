@@ -10,4 +10,5 @@ public class BaseTest {
         Configuration.pageLoadStrategy = "eager";
         // Configuration.holdBrowserOpen = true;
     }
+
 }
