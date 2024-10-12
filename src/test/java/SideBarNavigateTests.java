@@ -1,4 +1,6 @@
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -15,13 +17,17 @@ import static com.codeborne.selenide.Selenide.*;
 import static org.openqa.selenium.By.xpath;
 
 public class SideBarNavigateTests extends BaseTest {
-
     @BeforeEach
     void beforeEach() {
         open("/forms");
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
     }
+    @AfterEach
+    void afterEach() {
+        Selenide.closeWebDriver();
+    }
+
 
     @ParameterizedTest(name = "При клике на {0} левого сайдбара вкладки Elements - у нас отображается страница {1}")
     @CsvSource({
