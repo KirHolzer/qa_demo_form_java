@@ -1,7 +1,5 @@
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -59,13 +57,13 @@ public class SideBarNavigateTests extends BaseTest {
     }
     @Tag("SMOKE")
     @ParameterizedTest(name = "При клике на {0} левого сайдбара вкладки Interactions - у нас отображается страница {1}")
-    @MethodSource()
+    @MethodSource("provideInteractionsData")
     void checkNavigationFromLeftSideBarByInteractions(String menuItem,String expectedHeader) {
         $(xpath("//*[text()='Interactions']")).click();
         $(xpath("//span[text()='" + menuItem + "']")).click();
         $("h1").shouldHave(text(expectedHeader));
     }
-    static Stream<Arguments> checkNavigationFromLeftSideBarByInteractions() {
+    static Stream<Arguments> provideInteractionsData(){
         return Stream.of(
                 Arguments.of("Sortable", "Sortable"),
                 Arguments.of("Selectable", "Selectable"),
