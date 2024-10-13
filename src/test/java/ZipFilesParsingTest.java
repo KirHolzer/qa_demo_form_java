@@ -1,40 +1,76 @@
 import com.codeborne.pdftest.PDF;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
+import model.Student;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipFile;
+import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ZipFilesParsingTest {
     private ClassLoader classLoader = ZipFilesParsingTest.class.getClassLoader();
     private final String zipFileName = "sampleForTest.zip";
-
     @Test
+    @Tag("JSON")
+    @DisplayName("Проверка чтения и содержания JSON файла с информацией о студенте - проверка значений у ключей")
+    void testStudentJson() throws Exception {
+        ClassLoader classLoader = getClass().getClassLoader();
+        try (InputStream inputStream = classLoader.getResourceAsStream("StudentExample.json")) {
+            assertNotNull(inputStream, "Файл не найден в ресурсах");
+            ObjectMapper objectMapper = new ObjectMapper();
+            Student student = objectMapper.readValue(inputStream, Student.class);
+
+            Assertions.assertEquals("Kirill Samusenko", student.getStudentName());
+            Assertions.assertEquals(21, student.getAge());
+            assertTrue(student.isStudentIsActive());
+            // проверки на массив предметов
+            assertNotNull(student.getSubjects());
+            Assertions.assertEquals(3, student.getSubjects().size()); // проверяем что три предмета
+            assertTrue(student.getSubjects().contains("Mathematics"));
+            assertTrue(student.getSubjects().contains("Physics"));
+            assertTrue(student.getSubjects().contains("Computer Science"));
+        }
+
+    }
+    @Test
+    @DisplayName("проверка zip архива на наличие в нем example.csv table.xlsx sample.pdf файлов")
     @Tag("SMOKE")
     void checkContentInZip() throws Exception {
+        Set<String> expectedFiles = new HashSet<>(Arrays.asList("example.csv", "table.xlsx", "sample.pdf"));
+        Set<String> actualFiles = new HashSet<>();
+
         try (ZipInputStream zis = new ZipInputStream(classLoader.getResourceAsStream(zipFileName))) {
             ZipEntry entry;
             while ((entry = zis.getNextEntry()) != null) {
-                System.out.println(entry.getName());
+                actualFiles.add(entry.getName());
             }
         }
+        assertTrue(actualFiles.containsAll(expectedFiles),
+                "Не все ожидаемые файлы присутствуют в ZIP-архиве: " + expectedFiles);
     }
 
     @Test
-    @Tag("SOKE")
+    @DisplayName("проверяем что внутри pdf есть искомая строка")
+    @Tag("SMOKE")
     void checkContentInPdf() throws Exception {
         try (ZipInputStream zis = new ZipInputStream(classLoader.getResourceAsStream(zipFileName))) {
             ZipEntry entry;
@@ -49,6 +85,7 @@ public class ZipFilesParsingTest {
     }
 
     @Test
+    @DisplayName("проверяем что внутри Csv есть корректные название столбцов")
     @Tag("SMOKE")
     void checkContentInCsv() throws Exception {
         ZipFile zipFile = new ZipFile(new File(Objects.requireNonNull(classLoader
@@ -67,6 +104,7 @@ public class ZipFilesParsingTest {
     }
 
     @Test
+    @DisplayName("проверяем что внутри Xlsx есть корректные название столбцов")
     @Tag("SMOKE")
     void checkContentInXlsx() throws Exception {
         ZipFile zipFile = new ZipFile(new File(Objects.requireNonNull(classLoader
@@ -87,7 +125,6 @@ public class ZipFilesParsingTest {
 
             for (int i = 0; i < expectedHeaders.length; i++) {
                 Cell cell = headerRow.getCell(i);
-                System.out.println(cell);
                 actualHeaders[i] = (cell != null) ? cell.getStringCellValue() : "";
             }
             assertThat(actualHeaders).containsExactly(expectedHeaders);
@@ -95,6 +132,3 @@ public class ZipFilesParsingTest {
     }
 
 }
-
-
-
