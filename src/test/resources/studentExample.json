@@ -1,0 +1,10 @@
+{
+  "studentName": "Kirill Samusenko",
+  "age": 21,
+  "subjects": [
+    "Mathematics",
+    "Physics",
+    "Computer Science"
+  ],
+  "studentIsActive": true
+}
