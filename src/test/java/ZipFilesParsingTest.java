@@ -31,6 +31,7 @@ public class ZipFilesParsingTest {
     private final String zipFileName = "sampleForTest.zip";
     @Test
     @Tag("JSON")
+    @Tag("Form tests")
     @DisplayName("Проверка чтения и содержания JSON файла с информацией о студенте - проверка значений у ключей")
     void testStudentJson() throws Exception {
         ClassLoader classLoader = getClass().getClassLoader();
