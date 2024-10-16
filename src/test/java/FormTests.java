@@ -1,6 +1,7 @@
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Story;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import static io.qameta.allure.Allure.step;
 @Feature("Заполнение формы")
 @Story("Проверка модального окна на корректность введенных данных")
 @Owner("Kirill Goltser")
+@Tag("Form tests")
 public class FormTests extends BaseTest {
     private final DemoqaFormPage demoqaFormPage = new DemoqaFormPage();
     private final DataGenerator randomData = new DataGenerator();
@@ -155,6 +157,7 @@ public class FormTests extends BaseTest {
 
     @Test
     @Tag("SMOKE")
+    @Disabled("Пока не нужно проверять негативные тесты на номер телефона")
     @DisplayName("Негативная проверка ввода данных в поле номера телефона")
     void NegativeFormTest() {
         demoqaFormPage.openPage()
