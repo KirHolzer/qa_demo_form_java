@@ -1,4 +1,3 @@
-import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.Test;
 import pages.DemoqaFormPage;
 import utils.DataGenerator;
@@ -27,21 +26,21 @@ public class FormTests extends BaseTest {
     void checkFullFormTest() {
         demoqaFormPage.openPage()
                 .removeBanner()
-                .setFirstName(firstName)  // имя
-                .setLastName(lastName) // фамилия
-                .setEmail(userEmail) // email
-                .setGender(userGender) // пол мужской
-                .setUserNumber(userNumber) // номер телефона
-                .setBirthDay(dayOfBirth, monthOfBirth, yearOfBirth) // дата рождения в календаре
-                .setSubject(subjects) // предмет
-                .setHobby(hobbies) // хобби
-                .uploadPicture(pictureName) // загрузка картинки
-                .setUserCurrentAddress(userAddress) // адресс юзера
-                .setUserState(userState) // Штат юзера
-                .setUserCity(userCity) // город
-                .clickSubmit(); // загрузка картинки
-        //Selenide.sleep(10000);
-        // Проверки
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setEmail(userEmail)
+                .setGender(userGender)
+                .setUserNumber(userNumber)
+                .setBirthDay(dayOfBirth, monthOfBirth, yearOfBirth)
+                .setSubject(subjects)
+                .setHobby(hobbies)
+                .uploadPicture(pictureName)
+                .setUserCurrentAddress(userAddress)
+                .setUserState(userState)
+                .setUserCity(userCity)
+                .clickSubmit();
+
+
         demoqaFormPage.checkSuccessResult("Student Name", firstName + " " + lastName)
                 .checkSuccessResult ("Student Email", userEmail)
                 .checkSuccessResult ("Gender", userGender)
