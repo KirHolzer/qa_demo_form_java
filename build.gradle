@@ -34,7 +34,8 @@ dependencies {
             'com.opencsv:opencsv:5.9',
             'org.assertj:assertj-core:3.26.3',
             'org.apache.poi:poi-ooxml:3.9',
-            'io.qameta.allure:allure-selenide:2.29.0'
+            'io.qameta.allure:allure-selenide:2.29.0',
+            'org.slf4j:slf4j-simple:1.7.36'
     )
 }
 
@@ -51,6 +52,6 @@ tasks.withType(Test) {
 
 task form_test(type: Test) {
     useJUnitPlatform {
-        includeTags("Form tests")
+        includeTags("FormTests")
     }
 }
