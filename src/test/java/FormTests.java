@@ -12,7 +12,7 @@ import static io.qameta.allure.Allure.step;
 @Feature("Заполнение формы")
 @Story("Проверка модального окна на корректность введенных данных")
 @Owner("Kirill Goltser")
-@Tag("formTests")
+@Tag("formTest")
 public class FormTests extends BaseTest {
     private final DemoqaFormPage demoqaFormPage = new DemoqaFormPage();
     private final DataGenerator randomData = new DataGenerator();
