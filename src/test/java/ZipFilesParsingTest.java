@@ -42,9 +42,9 @@ public class ZipFilesParsingTest {
             Assertions.assertEquals("Kirill Samusenko", student.getStudentName());
             Assertions.assertEquals(21, student.getAge());
             assertTrue(student.isStudentIsActive());
-            // проверки на массив предметов
+
             assertNotNull(student.getSubjects());
-            Assertions.assertEquals(3, student.getSubjects().size()); // проверяем что три предмета
+            Assertions.assertEquals(3, student.getSubjects().size());
             assertTrue(student.getSubjects().contains("Mathematics"));
             assertTrue(student.getSubjects().contains("Physics"));
             assertTrue(student.getSubjects().contains("Computer Science"));
